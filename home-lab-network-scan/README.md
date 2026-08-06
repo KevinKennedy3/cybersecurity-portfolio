@@ -1,6 +1,6 @@
-# Home Lab Network Reconnaissanc
+# Home Lab Network Reconnaissance
 
-Date(s): 08/02/2026 –08/05/2026
+Date(s): 08/02/2026 – 08/05/2026
 Status: Complete
 Environment:Home Lab (VirtualBox - Kali Linux attacker VM, Metasploitable2 target VM, Host-Only network)
 Tools used: Nmap
