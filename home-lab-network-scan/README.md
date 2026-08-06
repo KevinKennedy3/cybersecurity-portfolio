@@ -1,9 +1,9 @@
 # [Home Lab Network Reconnaissance]
 
-Date(s): [08/02/2026 – end]
-Status: In Progress
-Environment:** Home Lab (VirtualBox - Kali Linux attacker VM, Metasploitable2 target VM, Host-Only network)
-Tools used:** Nmap
+Date(s): [08/02/2026 –08/05/2026
+Status: Complete
+Environment:Home Lab (VirtualBox - Kali Linux attacker VM, Metasploitable2 target VM, Host-Only network)
+Tools used: Nmap
 
 ---
 
@@ -139,7 +139,6 @@ addressing any one in isolation would leave the host critically exposed through 
 ## 6. Remediation
 
 | # |Finding | Recommended Fix | Status | Owner (if applicable) |
-|---------|-----------------|--------|------------------------|
 | 1 | vsftpd 2.3.4 backdoor (port 21) | Uninstall the compromised vsftpd binary and reinstall a current, verified version of vsftpd from an official, trusted source. Verify the integrity of the downloaded package (e.g. checksum or package manager signature verification) before deployment, since this vulnerability specifically resulted from a compromised distribution in the past. | Not remediated (documentation exercise, no changes applied to target) | N/A |
 | 2 | Telnet (port 23) | Disable the telnet service. SSH is already available on port 22 and provides an encrypted alternative for remote administrative access, so telnet serves no purpose that isn't already covered more securely. | Not remediated (documentation exercise, no changes applied to target) | N/A |
 | 3 | R-services (ports 512, 513, 514) | Remove the rsh-server package (`sudo apt remove rsh-server`), which provides rexecd, rlogind, and rshd. This is a separate package from telnet and requires its own explicit removal. SSH already covers the legitimate remote login and remote command execution use cases these services were originally designed for. | Not remediated (documentation exercise, no changes applied to target) | N/A |
@@ -181,7 +180,6 @@ encounter something you're eager to verify hands-on is the harder half. This pro
 - A CVE or vulnerability report matching a service name or protocol is not the same as it matching the actual software running on the target. Several points in this project (GNU Inetutils telnetd versus the netkit-telnet package actually installed, and a NetKit rcp CVE versus the rsh-server package actually running) initially looked applicable but were ruled out only after confirming the exact package and version on the host directly, rather than relying on the CVE's description alone.
 
 - Filtered searches can silently hide the answer you're looking for. A grep-filtered search of /etc/inetd.conf for "1524" returned no results, while a plain, unfiltered read of the same file revealed the entry clearly. When a targeted search comes up empty, it's worth trying a broader, unfiltered look before concluding the information isn't there.
--
 
 ---
 
