@@ -1,4 +1,4 @@
-#Home Lab Network Reconnaissance
+# Home Lab Network Reconnaissanc
 
 Date(s): 08/02/2026 –08/05/2026
 Status: Complete
