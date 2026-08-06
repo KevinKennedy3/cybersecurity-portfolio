@@ -139,17 +139,11 @@ addressing any one in isolation would leave the host critically exposed through 
 ## 6. Remediation
 
 | # |Finding | Recommended Fix | Status | Owner (if applicable) |
-
 |---|--------|-----------------|--------|-----------------------|
-
 | 1 | vsftpd 2.3.4 backdoor (port 21) | Uninstall the compromised vsftpd binary and reinstall a current, verified version of vsftpd from an official, trusted source. Verify the integrity of the downloaded package (e.g. checksum or package manager signature verification) before deployment, since this vulnerability specifically resulted from a compromised distribution in the past. | Not remediated (documentation exercise, no changes applied to target) | N/A |
-
 | 2 | Telnet (port 23) | Disable the telnet service. SSH is already available on port 22 and provides an encrypted alternative for remote administrative access, so telnet serves no purpose that isn't already covered more securely. | Not remediated (documentation exercise, no changes applied to target) | N/A |
-
 | 3 | R-services (ports 512, 513, 514) | Remove the rsh-server package (`sudo apt remove rsh-server`), which provides rexecd, rlogind, and rshd. This is a separate package from telnet and requires its own explicit removal. SSH already covers the legitimate remote login and remote command execution use cases these services were originally designed for. | Not remediated (documentation exercise, no changes applied to target) | N/A |
-
 | 4 | ingreslock/bindshell backdoor (port 1524) | Remove the ingreslock entry from /etc/inetd.conf and restart the xinetd/inetd service. This entry launches an unauthenticated root shell and serves no legitimate purpose; SSH already provides secure remote access. | Not remediated (documentation exercise, no changes applied to target) | N/A |
-
 | 5 | MySQL blank root password (port 3306) | Set a strong, unique password for the MySQL root account (e.g. via mysqladmin -u root password) rather than leaving it blank. Additionally, restrict which hosts are permitted to connect to the database service, rather than allowing connections from any network location. | Not remediated (documentation exercise, no changes applied to target) | N/A |
 
 ---
