@@ -1,6 +1,6 @@
-# [Home Lab Network Reconnaissance]
+#Home Lab Network Reconnaissance
 
-Date(s): [08/02/2026 –08/05/2026
+Date(s): 08/02/2026 –08/05/2026
 Status: Complete
 Environment:Home Lab (VirtualBox - Kali Linux attacker VM, Metasploitable2 target VM, Host-Only network)
 Tools used: Nmap
@@ -18,11 +18,10 @@ Why this matters: Identifying exposed services and their associated risks is the
 ## 2. Scope
 
 - In scope: 
-  - Scanning Metasploitable2 (target) from Kali Linux (attacker) vian Nmap for open ports and service/version detection.
+  - Scanning Metasploitable2 (target) from Kali Linux (attacker) via Nmap for open ports and service/version detection.
   - Researching publicly known vulnerabilities (CVEs) associated with identified services
 - Out of scope:
   - Active exploitation of any identified vulnerabilities (no attempts to gain access, execute code, or otherwise act on findings — identification and risk assessment only)
-- Assumptions / constraints:
 - Assumptions / constraints:
   - Network isolated via Host-Only Adapter, eliminating connectivity to the production/home network
   - Metasploitable2 is an intentionally vulnerable practice target — findings reflect deliberately unpatched services, not typical real-world conditions
@@ -35,11 +34,9 @@ Why this matters: Identifying exposed services and their associated risks is the
 
 | Step | Action | Tool/Command | Result / Observation |
 |------|--------|--------------|----------------------|
-| 1 |Changed network adapter on both VMs from NAT Network to Host-Only Adapter to isolate labe from production network |VirtualBox Network Settings |Both VMs configured on isolated Host-Only network |
+| 1 |Changed network adapter on both VMs from NAT Network to Host-Only Adapter to isolate lab from production network |VirtualBox Network Settings |Both VMs configured on isolated Host-Only network |
 | 2 |Verified connectivity between attacker and target machines |ifconfig (metasploitable2), ping -c 4 192.168.56.101 (Kali) |Metasploitable2 IP confirmed as 192.168.56.101; 4/4 ping replies received, 0% packet loss |
 | 3 |Performed port scan with service/version detection against target |nmap -sV 192.168.56.101 |23 open TCP ports identified with associated services and versions (see Findings for full list and analysis) |
-
-> Tip: Note when something *didn't* go as expected and what you changed — that pivot is the most valuable part of this section for a portfolio reader.
 
 ---
 
@@ -74,7 +71,7 @@ finding trivially exploitable if the FTP service is reachable.
 
 - Finding 2: Telnet (Port 23) - Unencrypted Remote Access Protocol
   - Severity: High
-  - Details: Nmap identified Linux telnetd (netkit-telnet 0.17-35ubuntu1) running on port 23. Telnet transmits all data, including login credentials, in unencrypted plaintext. Any party able to observe network traffic between clinet and server can capture credentials or session data directly, with no need to break encryption since none is used. This is a fundamental design limitation of the protocol, not a version-specific bug; SSH has been the standard secure replacement for over two decades.
+  - Details: Nmap identified Linux telnetd (netkit-telnet 0.17-35ubuntu1) running on port 23. Telnet transmits all data, including login credentials, in unencrypted plaintext. Any party able to observe network traffic between client and server can capture credentials or session data directly, with no need to break encryption since none is used. This is a fundamental design limitation of the protocol, not a version-specific bug; SSH has been the standard secure replacement for over two decades.
 
   - CVE research note: Recent 2026 CVEs affecting telnetd implementations (e.g. CVE-2026-24061, CVE-2026-32746) were investigated but confirmed not applicable. Those affect GNU Inetutils telnetd, while this host runs netkit-telnet 0.17-35ubuntu1, a different codebase.
 
@@ -114,11 +111,11 @@ ingreslock (/etc/services). The backdoor definition was located in /etc/inetd.co
 
 - Finding 5: Port 3306 (MySQL 5.0.51a-3ubuntu5) — Blank Root Password
   - Severity: Critical
-  -Details: Nmap identified MySQL version 5.0.51a-3ubuntu5 running on port 3306. A direct cve.org search for this version returned no results, which is consistent with this being a configuration weakness rather than a code-level vulnerability, configuration issues are typically not assigned CVEs. Rapid7's own Metasploitable2 exploitability guide confirms the machine is documented as having weak password security across both system and database accounts, specifically noting the MySQL root account is configured with a blank password. This finding is documented based on this source rather than direct connection, consistent with this project's scope.
+  - Details: Nmap identified MySQL version 5.0.51a-3ubuntu5 running on port 3306. A direct cve.org search for this version returned no results, which is consistent with this being a configuration weakness rather than a code-level vulnerability, configuration issues are typically not assigned CVEs. Rapid7's own Metasploitable2 exploitability guide confirms the machine is documented as having weak password security across both system and database accounts, specifically noting the MySQL root account is configured with a blank password. This finding is documented based on this source rather than direct connection, consistent with this project's scope.
 
   - Risk: If accurate, a blank root password on the database service would allow any party able to reach port 3306 to authenticate as the MySQL administrative account with no credentials at all, granting full read and write access to all databases on the host. This is comparable in severity to the port 1524 finding, since it represents a complete authentication bypass, though scoped to the database service rather than the operating system shell.
 
-  -References:
+  - References:
     - Rapid7 Metasploitable2 Exploitability Guide: https://docs.rapid7.com/metasploit/metasploitable-2-exploitability-guide/ (documents weak/blank password configuration for MySQL and other services on Metasploitable2)
 ---
 
